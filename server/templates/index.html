@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C2 Security Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <!-- Logo Section -->
+        <img id="logo" src="{{ url_for('static', filename='logo.png') }}" alt="C2 Security Logo" class="logo">
+        <h1>C2 Security Application Dashboard</h1>
+
+
+        <div class="user-options text-right">
+            {% if session['user_id'] %}
+                <p>Welcome, {{ session['role'] }}</p>
+                <a href="/logout" class="btn btn-danger">Logout</a>
+            {% else %}
+                <a href="/login" class="btn btn-primary">Login</a>
+                <a href="/register_user" class="btn btn-secondary">Register</a>
+            {% endif %}
+        </div>
+
+        <div class="grid">
+            {% if session['user_id'] %}
+                <div class="grid-item">
+                    <h2>Connected Devices</h2>
+                    <a href="/devices" class="btn btn-primary">View Detailed Device List</a>
+                </div>
+
+                {% if session['role'] == 'admin' %}
+                <div class="grid-item">
+                    <h2>Log Files</h2>
+                    <a href="/logs" class="btn btn-secondary">View Logs</a>
+                </div>
+                {% endif %}
+
+                <div class="grid-item">
+                    <h2>File Operations</h2>
+                    <a href="/file_operations" class="btn btn-success">Go to File Upload/Download</a>
+                </div>
+            {% else %}
+                <p>Please log in to access the dashboard features.</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
